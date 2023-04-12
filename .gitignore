@@ -1,0 +1,20 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/WebApplication1/WebApplication1/appsettings.json
+/WebApplication1/WebApplication1/appsettings.Development.json
+/WebApplication1/WebApplication1/bin
+/WebApplication1/WebApplication1obj
+/WebApplication1/.vs
+
+/WebApplication1/WebApplication1/bin/Debug/net7.0
+/WebApplication1/.vs/WebApplication1 
+/WebApplication1/WebApplication1/obj
+*.json
+/WebApplication1/.vs/ProjectEvaluation/WebApplication1.metadata.v6.1 
+/WebApplication1/.vs/ProjectEvaluation/WebApplication1.projects.v6.1 
+/WebApplication1/.vs/
+
+
+
