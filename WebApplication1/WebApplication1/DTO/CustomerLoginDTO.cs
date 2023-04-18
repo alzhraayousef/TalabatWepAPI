@@ -1,8 +1,10 @@
 ﻿namespace WebApplication1.DTO
 {
-    public class LoginDTO
+    public class CustomerLoginDTO
     {
-        public string UserName { get; set; }
         public string Password { get; set; }
+        public string Email { get; set; }
+
+
     }
 }

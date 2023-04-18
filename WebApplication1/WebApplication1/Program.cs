@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Principal;
 using System.Text;
 using WebApplication1.Models;
+using WebApplication1.repo;
 
 namespace WebApplication1
 {
@@ -23,12 +25,27 @@ namespace WebApplication1
 
             builder.Services.AddDbContext<Context>(options =>
            options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
-       );
+            );
 
-          
-           
+
+
+            builder.Services.AddScoped<IRepositry<Customer>, Repositry<Customer>>();
+            builder.Services.AddScoped<IRepositry<Resturant>, Repositry<Resturant>>();
+
+
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
-           
+
+         //   builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+         //   {
+         //       options.Password.RequireNonAlphanumeric = false;
+         //       options.Password.RequireUppercase = false;
+         //       options.Password.RequireDigit = false;
+         //   }
+         //).AddEntityFrameworkStores<Context>();
+
+
+
             builder.Services.AddAuthentication(options =>
             {
                 //jwt
