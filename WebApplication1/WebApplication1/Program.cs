@@ -1,11 +1,14 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Web.Http.Cors;
 using System.Text;
+using System.Web.Http;
 using WebApplication1.Models;
+using System.Text.Json.Serialization;
+using WebApplication1.repo;
 
 namespace WebApplication1
 {
@@ -14,21 +17,25 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+          
             // Add services to the container.
             builder.Services.AddCors(options => {
                 options.AddPolicy("MyPolicy", builder =>
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+            builder.Services.AddControllers().AddJsonOptions(x =>
+         x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             builder.Services.AddDbContext<Context>(options =>
            options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
        );
+           
 
-          
-           
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
-           
+         ;
+            builder.Services.AddScoped<IRepositry<Resturant>, Repositry<Resturant>>();
+            builder.Services.AddScoped<IRepositry<City>, Repositry<City>>();
+            builder.Services.AddScoped<IRepositry<Category>, Repositry<Category>>();
             builder.Services.AddAuthentication(options =>
             {
                 //jwt

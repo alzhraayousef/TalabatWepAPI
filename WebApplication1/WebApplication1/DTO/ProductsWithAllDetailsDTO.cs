@@ -1,9 +1,7 @@
-﻿namespace WebApplication1.Models
+﻿namespace WebApplication1.DTO
 {
-    public class Product
+    public class ProductsWithAllDetailsDTO
     {
-        internal object resturantCategories;
-
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -11,13 +9,7 @@
         public float Price { get; set; }
         public bool IsDeleted { get; set; }
         public int CategoryID { get; set; }
-        public Category Category { get; set; }
+        public string Category { get; set; }
         public int ResturantID { get; set; }
-        public Resturant Resturant { get; set; }
-        public List<OrderProducts> OrderProducts { get; set; }
-        public List<Cart> Cart { get; set; }
-
-
-
     }
 }
