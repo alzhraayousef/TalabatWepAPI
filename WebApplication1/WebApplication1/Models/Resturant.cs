@@ -10,7 +10,8 @@ namespace WebApplication1.Models
         public string Image { get; set; }
         public float MinOrderAmmount { get; set; }
       
-        public string WorkingHours { get;}
+
+             public string WorkingHours { get; set; }
         public bool IsDeleted { get; set; }
         public List<ResturantCategories> ResturantCategories { get; set; }
         public List<Product> Products { get; set; }
