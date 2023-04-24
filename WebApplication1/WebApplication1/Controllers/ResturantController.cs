@@ -1,40 +1,6 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-//using WebApplication1.Models;
 
-//namespace WebApplication1.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class ResturantController : ControllerBase
-//    {
-//        Context context;
-//        public ResturantController(Context context)
-//        {
-//            this.context = context;
-//        }
-//        [HttpGet]
-//        //[Authorize]//jwt
-//        public ActionResult GetAllResturant()
-//        {
-//            List<Resturant> resturants = context.Resturant.Include(c=>c.Products).Include(c=>c.ResturantCategories).ToList();
+﻿using Microsoft.AspNetCore.Http;
 
-//            return Ok(resturants);
-
-//        }
-//        [HttpGet("{id:int}")]
-//        //[Authorize]//jwt
-//        public ActionResult GetResturantDetails(int id)
-//        {
-//            Resturant resturant = context.Resturant.FirstOrDefault(R => R.ID == id);
-
-//            return Ok(resturant);
-
-//        }
-
-//    }
-//}
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -51,21 +17,26 @@ namespace WebApplication1.Controllers
         public IRepositry<Resturant> restaurantRepo;
         public IRepositry<City> cityRepo;
         Context context;
+
         public ResturantController(IRepositry<Resturant> restaurantRepo, IRepositry<City> cityRepo)
         {
             this.restaurantRepo = restaurantRepo;
             this.cityRepo = cityRepo;
+
         }
 
         [HttpGet("GetAllRestaurant")]
         public IActionResult getAll()
         {
+
             List<Resturant> restaurantList = restaurantRepo.getall("ApplicationUser", "ResturantCategories");
             return Ok(restaurantList);
         }
       
 
-            [HttpPut]
+        
+        [HttpPut]
+
         [Route("{id}")]
         public IActionResult Edit(int id, Resturant newRest)
         {
@@ -76,7 +47,11 @@ namespace WebApplication1.Controllers
                 orgRest.Image = newRest.Image;
                 orgRest.MinOrderAmmount = newRest.MinOrderAmmount;
 
+
                 context.SaveChanges();
+
+                context.SaveChanges(); 
+
                 return Ok("Updated");
             }
             return BadRequest(ModelState);

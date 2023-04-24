@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Models;
 
@@ -11,9 +12,11 @@ using WebApplication1.Models;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230417001422_AdditionalColumns")]
+    partial class AdditionalColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -531,6 +534,13 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<float>("DelivaryFee")
+                        .HasColumnType("real");
+
+                    b.Property<string>("DelivaryTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -541,7 +551,6 @@ namespace WebApplication1.Migrations
                     b.Property<float>("MinOrderAmmount")
                         .HasColumnType("real");
 
-                    b.Property<string>("Name");
                     b.Property<string>("WorkingHours")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -586,13 +595,6 @@ namespace WebApplication1.Migrations
 
                     b.Property<int>("CityID")
                         .HasColumnType("int");
-
-                    b.Property<float>("DelivaryFee")
-                        .HasColumnType("real");
-
-                    b.Property<string>("DelivaryTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ResturantID")
                         .HasColumnType("int");

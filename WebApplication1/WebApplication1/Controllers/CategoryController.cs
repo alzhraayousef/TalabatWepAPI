@@ -1,39 +1,8 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-//using System.Collections.Immutable;
-//using WebApplication1.DTO;
-//using WebApplication1.Models;
 
-//namespace WebApplication1.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class CategoryController : Controller
-//    {
-//        Context context;
-//        public CategoryController(Context context)
-//        {
-//            this.context = context;
-//        }
-//        [HttpGet]
-//        public ActionResult GetAllCategory()
-//        {
-//            List<Category> Category=context.Category.Include(c=>c.Products).Include(c=>c.ResturantCategories).ToList();
-
-//            return Ok(Category);
-
-//        }
-//        [HttpGet("{id:int}")]
-//        public ActionResult GetCategoryByID(int id)
-//        {
-//            Category category = context.Category.Where(c=> c.ID == id).FirstOrDefault();
-//            return Ok(category.Name); 
-
-//        }
-
-//    }
-//}
 using Microsoft.AspNetCore.Http;
+
+﻿using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.DTO;
 using WebApplication1.Models;
@@ -74,18 +43,21 @@ namespace WebApplication1.Controllers
             List<Category> categoryList = categoryRepo.getall();
             return Ok(categoryList);
         }
+
         [HttpGet("{id:int}")]
         public ActionResult GetCategoryByID(int id)
         {
-            //Category category = context.Category.Where(c => c.ID == id).FirstOrDefault();
+           
             Category category = categoryRepo.getbyid(id);
             return Ok(category.Name);
 
         }
-        [HttpGet("getRestaurantbyCityId{id:int}")]
-        public IActionResult getRestaurantbyCityId(int id)
+
+        [HttpGet("{id:int}")]
+        public IActionResult getCategorybyResturantId(int id)
         {
-            Resturant RestModel = restaurantRepo.getall("ResturantCategories", "ApplicationUser").FirstOrDefault(c => c.ID == id);
+            Resturant RestModel = restaurantRepo.getall("ResturantCategories","ApplicationUser").FirstOrDefault(c => c.ID == id);
+
             CategoryWithResturantDTO RestDTO = new CategoryWithResturantDTO();
             RestDTO.Id = RestModel.ID;
             RestDTO.ResturantName = RestModel.ApplicationUser.UserName;
@@ -93,7 +65,9 @@ namespace WebApplication1.Controllers
             foreach (var item in RestModel.ResturantCategories)
             {
                 item.Category = categoryRepo.getall().FirstOrDefault(t => t.ID == item.CategoryID);
+
                 CategoriesDTO cat = new CategoriesDTO();
+
                 cat.Id = item.CategoryID;
                 cat.CatergoryName = item.Category.Name;
 
@@ -110,7 +84,11 @@ namespace WebApplication1.Controllers
             if (ModelState.IsValid)
             {
                 Category orgCat = categoryRepo.getbyid(id);
+
                 orgCat.Name = newCat.Name;
+
+                orgCat.Name = newCat.Name; 
+
                 orgCat.IsDeleted = newCat.IsDeleted;
                 context.SaveChanges();
                 return Ok("Updated");
