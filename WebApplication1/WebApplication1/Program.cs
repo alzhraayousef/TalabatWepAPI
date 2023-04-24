@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using WebApplication1.Models;
+using WebApplication1.repo;
 
 namespace WebApplication1
 {
@@ -28,7 +29,12 @@ namespace WebApplication1
           
            
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
-           
+            builder.Services.AddScoped<IRepositry<Resturant>, Repositry<Resturant>>();
+            builder.Services.AddScoped<IRepositry<City>, Repositry<City>>();
+            builder.Services.AddScoped<IRepositry<Category>, Repositry<Category>>();
+
+
+
             builder.Services.AddAuthentication(options =>
             {
                 //jwt

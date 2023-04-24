@@ -9,13 +9,13 @@ namespace WebApplication1.Models
         public Context(DbContextOptions options):base(options) 
         { }
 
-        //public Context() { }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-SH1SPK1\SQL2019;Initial Catalog=Talabat;Integrated Security=True;Encrypt=False");
-        //    base.OnConfiguring(optionsBuilder);
-        //}
-       public DbSet<Address> Address { get; set; }
+        public Context() { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-KHKE8CC\SQL19;Initial Catalog=Talabat;Integrated Security=True;Encrypt=False");
+            base.OnConfiguring(optionsBuilder);
+        }
+        public DbSet<Address> Address { get; set; }
        public DbSet<Cart> Cart { get; set; }
        public DbSet<Category> Category { get; set; }
         public DbSet<City> City { get; set; }
