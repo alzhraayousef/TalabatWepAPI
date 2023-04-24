@@ -14,14 +14,14 @@ namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class CustomerAccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration config;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IRepositry<Customer> CustomerRepositry;
 
-        public CustomerController(UserManager<ApplicationUser> userManager,IConfiguration config, SignInManager<ApplicationUser> signInManager, IRepositry<Customer> CustomerRepositry)
+        public CustomerAccountController(UserManager<ApplicationUser> userManager,IConfiguration config, SignInManager<ApplicationUser> signInManager, IRepositry<Customer> CustomerRepositry)
         {
             this.userManager = userManager;
             this.config = config;

@@ -14,14 +14,14 @@ namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ResturantController : Controller
+    public class ResturantAccountController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration config;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IRepositry<Resturant> ResturantRepositry;
 
-        public ResturantController(UserManager<ApplicationUser> userManager, IConfiguration config, SignInManager<ApplicationUser> signInManager, IRepositry<Resturant> ResturantRepositry)
+        public ResturantAccountController(UserManager<ApplicationUser> userManager, IConfiguration config, SignInManager<ApplicationUser> signInManager, IRepositry<Resturant> ResturantRepositry)
         {
             this.userManager = userManager;
             this.config = config;
