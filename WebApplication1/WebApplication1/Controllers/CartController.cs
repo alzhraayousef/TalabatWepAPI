@@ -14,79 +14,92 @@ namespace WebApplication1.Controllers
     {
         IRepositry<Cart> cartRepo;
         IRepositry<Product> productRepo;
-        
-        public CartController(IRepositry<Cart> _cartRepo, IRepositry<Product> _productRepo)
+        IRepositry<Customer> customerRepo;
+        public CartController(IRepositry<Cart> _cartRepo, IRepositry<Product> _productRepo,
+            IRepositry<Customer> _customerRepo)
         {
             productRepo = _productRepo;
             cartRepo = _cartRepo;
-            
-        }
-        
-        [HttpGet]
-        public ActionResult<CartDTO> getCartByProduct(Product product)
-        {
-            CartDTO cartDTO = new CartDTO();
-            product = productRepo.getall("Resturant.ResturantCities", "Resturant.ApplicationUser").FirstOrDefault();
-            cartDTO.ResturantId = product.ResturantID;
-            cartDTO.ResturantName = product.Resturant.ApplicationUser.UserName;
-            cartDTO.ProductName = product.Name;
-            cartDTO.ProductPrice = product.Price;
-            cartDTO.delivaryFee = product.Resturant.ResturantCities
-                .FirstOrDefault(c => c.ResturantID == cartDTO.ResturantId).DelivaryFee;
+            customerRepo= _customerRepo;
 
-            return Ok(cartDTO);
         }
 
-        //[HttpGet]
-        //[Route("productId")]
-        //public ActionResult<CartDTO> getProductWithQuantity(int productId)
-        //{
-        //    Cart cart = cartRepo.getall("Product.Resturant.ApplicationUser", "Product.Resturant.ResturantCities")
-        //        .FirstOrDefault(c=>c.ProductID== productId);
-        //    int ResturantId = cart.Product.ResturantID;
-        //    CartDTO cartDTO = new CartDTO();
-        //    cartDTO.ResturantName = cart.Product.Resturant.ApplicationUser.UserName;
-        //    cartDTO.ProductName = cart.Product.Name;
-        //    cartDTO.Quantity = cart.Quantity;
-        //    cartDTO.ProductPrice = cart.TotalPrice* cart.Quantity;
-        //    cartDTO.delivaryFee = cart.Product.Resturant.ResturantCities
-        //        .FirstOrDefault(c=>c.ResturantID == ResturantId).DelivaryFee;
-        //    return Ok(cartDTO);
-        //}
 
-        [HttpPost]
-        public ActionResult<CartDTO> New(CartDTO cartDTO)
+
+    [HttpPost]
+        public ActionResult<CartDTO> AddToCart(int ProductID, string ApplicationUserId)
         {
-            if (ModelState.IsValid)
+            Customer customer = customerRepo.getall().FirstOrDefault(c => c.ApplicationUserId == ApplicationUserId);
+            Product product = productRepo.getall().FirstOrDefault(p => p.ID == ProductID);
+
+            List<Cart> cartList = cartRepo.getall("Product").Where(c => c.CustomerID == customer.ID).ToList();
+            Cart cart;
+            bool flagResturentDound = false;
+            bool flagProductFound = false;
+            if (cartList.Count>0)
             {
-                Cart cart = new Cart();
-                cart.ProductID = cartDTO.ProductID;
-                cart.CustomerID = cartDTO.CustomerID;
-                cart.TotalPrice = cartDTO.ProductPrice;
-                cart.Quantity = cartDTO.Quantity;
-                cartRepo.create(cart);
-                return Ok("Created");
+                foreach(Cart item in cartList)
+                {
+                    if(item.Product.ResturantID==product.ResturantID)
+                    {
+                        flagResturentDound = true;
+                    }
+                    if(item.ProductID==ProductID)
+                    {
+                        flagProductFound = true;
+                    }
+                }
             }
-            return Ok(cartDTO);
-        }
-        [HttpPut("{id}")]
-        public IActionResult Edit(int id, CartDTO cartDTO)
-        {
-            if (ModelState.IsValid)
+            if (cartList.Count <= 0 || flagResturentDound)
             {
-                Cart cart = cartRepo.getbyid(id);
-                cart.CustomerID = cartDTO.CustomerID;
-                cart.ProductID = cartDTO.ProductID;
-                cart.TotalPrice = cartDTO.ProductPrice;
-                cart.Quantity = cartDTO.Quantity;
-                cartRepo.update(cart);
-                return Ok("updated");
+                if (flagProductFound)
+                {
+                    cart = cartRepo.getall().FirstOrDefault(c => c.ProductID == ProductID&&c.CustomerID==customer.ID);
+                    cart.Quantity += 1;
+                    cart.TotalPrice = cart.Quantity * product.Price;
+                    cartRepo.update(cart);
+                }
+                else
+                {
+                    cart = new Cart
+                    {
+                        CustomerID = customer.ID,
+                        ProductID = product.ID,
+                        Quantity = 1,
+                        TotalPrice = product.Price
+                    };
+                    cartRepo.create(cart);
+                }
             }
-            return BadRequest(ModelState);
+            else
+            {
+                return BadRequest("Resturant Not Exist");
+            }
+
+            return Ok("Successfully Added To Cart");
+        }
+
+        [HttpGet("customerID")]
+        public IActionResult GetCartByCustomerId(int customerID)
+        {
+            List<Cart> cartList = cartRepo.getall("Product").Where(c => c.CustomerID == customerID).ToList();
+            return Ok(cartList);
+        }
+
+        [HttpPut]
+        public IActionResult EditCart(int ProductID, int quantity, string ApplicationUserId)
+        {
+            Customer customer = customerRepo.getall().FirstOrDefault(c => c.ApplicationUserId == ApplicationUserId);
+            Cart cart = cartRepo.getall().FirstOrDefault(c => c.ProductID == ProductID && c.CustomerID == customer.ID);
+            Product product = productRepo.getall().FirstOrDefault(p=>p.ID == ProductID);
+            cart.Quantity=quantity;
+            cart.TotalPrice = product.Price * cart.Quantity;
+            cartRepo.update(cart);
+            return Ok(cart.TotalPrice);
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<CartDTO> del(int id)
+        public ActionResult<CartDTO> deleteFromCart(int id)
         {
             Cart cart = cartRepo.getbyid(id);
             cartRepo.delete(cart);
