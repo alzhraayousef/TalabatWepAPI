@@ -53,10 +53,10 @@ namespace WebApplication1.Controllers
 
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult getCategorybyResturantId(int id)
+        [HttpGet("{ResturantId:int}")]
+        public IActionResult getCategorybyResturantId(int ResturantId)
         {
-            Resturant RestModel = restaurantRepo.getall("ResturantCategories","ApplicationUser").FirstOrDefault(c => c.ID == id);
+            Resturant RestModel = restaurantRepo.getall("ResturantCategories","ApplicationUser").FirstOrDefault(c => c.ID == ResturantId);
 
             CategoryWithResturantDTO RestDTO = new CategoryWithResturantDTO();
             RestDTO.Id = RestModel.ID;

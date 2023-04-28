@@ -12,7 +12,7 @@ namespace WebApplication1.Models
         public Context() { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source= DESKTOP-II8M3AV\SQL19;Initial Catalog=Talabat;Integrated Security=True;Encrypt=False");
+            optionsBuilder.UseSqlServer(@"Data Source= DESKTOP-SH1SPK1\SQL2019;Initial Catalog=Talabat;Integrated Security=True;Encrypt=False");
             base.OnConfiguring(optionsBuilder);
         }
        
