@@ -5,8 +5,6 @@
         public int ID { get; set; }
         public string Image { get; set; }
         public float MinOrderAmmount { get; set; }
-        public float DelivaryFee { get; set; }
-        public string DelivaryTime { get; set; }
         public string WorkingHours { get;}
         public bool IsDeleted { get; set; }
         public List<ResturantCategories> ResturantCategories { get; set; }

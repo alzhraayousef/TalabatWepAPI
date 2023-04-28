@@ -7,5 +7,7 @@
         public City City { get; set; }
         public int ResturantID { get; set; }
         public Resturant Resturant { get; set; }
+         public float DelivaryFee { get; set; }
+        public string DelivaryTime { get; set; }
     }
 }

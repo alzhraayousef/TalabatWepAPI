@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 using WebApplication1.Models;
+using WebApplication1.repo;
 
 namespace WebApplication1
 {
@@ -20,13 +22,24 @@ namespace WebApplication1
                 options.AddPolicy("MyPolicy", builder =>
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+            // for json
+            builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             builder.Services.AddDbContext<Context>(options =>
            options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
+
+           
        );
 
-          
-           
+            builder.Services.AddScoped<IRepositry<Cart>,Repositry<Cart>>();
+            builder.Services.AddScoped<IRepositry<Order>, Repositry<Order>>();
+            builder.Services.AddScoped<IRepositry<Product>, Repositry<Product>>();
+            builder.Services.AddScoped<IRepositry<Offer>, Repositry<Offer>>();
+            builder.Services.AddScoped<IRepositry<Customer>, Repositry<Customer>>();
+            builder.Services.AddScoped<IRepositry<Resturant>, Repositry<Resturant>>();
+            builder.Services.AddScoped<IRepositry<ResturantCities>, Repositry<ResturantCities>>();
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
            
             builder.Services.AddAuthentication(options =>

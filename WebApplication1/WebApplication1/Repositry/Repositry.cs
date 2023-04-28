@@ -18,12 +18,11 @@ namespace WebApplication1.repo
         {
             return context.Set<T>().Include(s).ToList();
         }
-
         public List<T> getall(string s, string s2)
         {
             return context.Set<T>().Include(s).Include(s2).ToList();
         }
-
+  
         public T getbyid(int id)
         {
 
