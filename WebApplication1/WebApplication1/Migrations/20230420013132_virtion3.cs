@@ -5,7 +5,7 @@
 namespace WebApplication1.Migrations
 {
     /// <inheritdoc />
-    public partial class sd : Migration
+    public partial class virtion3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,6 +18,7 @@ namespace WebApplication1.Migrations
                 name: "DelivaryTime",
                 table: "Resturant");
 
+       
             migrationBuilder.AddColumn<float>(
                 name: "DelivaryFee",
                 table: "ResturantCities",
@@ -57,6 +58,8 @@ namespace WebApplication1.Migrations
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
+
+          
         }
     }
 }

@@ -1,12 +1,22 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+
+using System.Web.Http.Cors;
+
+using System.Security.Principal;
+
 using System.Text;
 using System.Text.Json.Serialization;
+
+using System.Web.Http;
 using WebApplication1.Models;
+using WebApplication1.repo;
+
+using System.Text.Json.Serialization;
+
 using WebApplication1.repo;
 
 namespace WebApplication1
@@ -16,8 +26,8 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
+          
+          
             builder.Services.AddCors(options => {
                 options.AddPolicy("MyPolicy", builder =>
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -41,7 +51,20 @@ namespace WebApplication1
             builder.Services.AddScoped<IRepositry<ResturantCities>, Repositry<ResturantCities>>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
-           
+            builder.Services.AddScoped<IRepositry<City>, Repositry<City>>();
+            builder.Services.AddScoped<IRepositry<Category>, Repositry<Category>>();
+
+         //   builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+         //   {
+         //       options.Password.RequireNonAlphanumeric = false;
+         //       options.Password.RequireUppercase = false;
+         //       options.Password.RequireDigit = false;
+         //   }
+         //).AddEntityFrameworkStores<Context>();
+
+
+
+
             builder.Services.AddAuthentication(options =>
             {
                 //jwt
@@ -115,6 +138,8 @@ namespace WebApplication1
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseStaticFiles();
             app.UseCors("MyPolicy");
             app.UseAuthentication();
             app.UseAuthorization();

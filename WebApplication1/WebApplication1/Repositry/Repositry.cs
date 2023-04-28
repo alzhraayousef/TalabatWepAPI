@@ -28,6 +28,7 @@ namespace WebApplication1.repo
 
             return context.Find<T>(id);
         }
+    
 
 
         public void create(T t)

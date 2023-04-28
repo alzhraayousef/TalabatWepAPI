@@ -1,4 +1,5 @@
-﻿namespace WebApplication1.Models
+﻿
+namespace WebApplication1.Models
 {
     public class ResturantCities
     {
@@ -9,5 +10,6 @@
         public Resturant Resturant { get; set; }
          public float DelivaryFee { get; set; }
         public string DelivaryTime { get; set; }
+
     }
 }
