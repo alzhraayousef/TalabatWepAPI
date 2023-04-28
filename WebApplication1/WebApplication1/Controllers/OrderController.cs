@@ -88,23 +88,23 @@ namespace WebApplication1.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult New(OrderProducts OrderProducts)
-        {
-            OrderDTO OrderDTO = new OrderDTO();
-            // Cart cart = new Cart();
-            if (ModelState.IsValid)
-            {
-               //OrderProducts.Product.Name = OrderDTO.ProductName;
-               //OrderProducts.ProductID = OrderDTO.ProductID;
-                //OrderProducts.Quantity = OrderDTO.Quantity;
-               ///OrderProducts.TotalPrice = OrderDTO.TotalPrice;
-              /// OrderProducts.Product.Resturant.DelivaryFee = OrderDTO.DelivaryFee;
-                _OrderProducts.create(OrderProducts);
-                return Ok("Created");
-            }
-            return Ok();
-        }
+        //[HttpPost]
+        //public IActionResult New(OrderProducts OrderProducts)
+        //{
+        //    OrderDTO OrderDTO = new OrderDTO();
+        //    // Cart cart = new Cart();
+        //    if (ModelState.IsValid)
+        //    {
+        //       //OrderProducts.Product.Name = OrderDTO.ProductName;
+        //       //OrderProducts.ProductID = OrderDTO.ProductID;
+        //        //OrderProducts.Quantity = OrderDTO.Quantity;
+        //       ///OrderProducts.TotalPrice = OrderDTO.TotalPrice;
+        //      /// OrderProducts.Product.Resturant.DelivaryFee = OrderDTO.DelivaryFee;
+        //        _OrderProducts.create(OrderProducts);
+        //        return Ok("Created");
+        //    }
+        //    return Ok();
+        //}
 
 
 
