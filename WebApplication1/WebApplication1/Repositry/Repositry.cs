@@ -22,7 +22,11 @@ namespace WebApplication1.repo
         {
             return context.Set<T>().Include(s).Include(s2).ToList();
         }
-  
+        public List<T> getall(string s, string s2 ,string s3)
+        {
+            return context.Set<T>().Include(s).Include(s2).Include(s3).ToList();
+        }
+
         public T getbyid(int id)
         {
 

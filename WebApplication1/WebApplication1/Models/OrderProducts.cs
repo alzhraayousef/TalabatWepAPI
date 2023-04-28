@@ -6,8 +6,13 @@
         public int Quantity { get; set; }
         public float TotalPrice { get; set; }
         public int ProductID { get; set; }
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
         public int OrderID { get; set; }
-        public Order Order { get; set; }
+        public Order? Order { get; set; }
+
+        internal List<OrderProducts> ToList()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

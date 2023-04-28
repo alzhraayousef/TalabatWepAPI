@@ -49,6 +49,8 @@ namespace WebApplication1
             builder.Services.AddScoped<IRepositry<Customer>, Repositry<Customer>>();
             builder.Services.AddScoped<IRepositry<Resturant>, Repositry<Resturant>>();
             builder.Services.AddScoped<IRepositry<ResturantCities>, Repositry<ResturantCities>>();
+            builder.Services.AddScoped<IRepositry<Order>, Repositry<Order>>();
+
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
             builder.Services.AddScoped<IRepositry<City>, Repositry<City>>();
